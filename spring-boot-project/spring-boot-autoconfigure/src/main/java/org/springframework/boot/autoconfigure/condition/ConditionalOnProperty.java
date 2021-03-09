@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.core.env.Environment;
 
 /**
+ * 指定的配置中含有特定的值
  * {@link Conditional} that checks if the specified properties have a specific value. By
  * default the properties must be present in the {@link Environment} and
  * <strong>not</strong> equal to {@code false}. The {@link #havingValue()} and

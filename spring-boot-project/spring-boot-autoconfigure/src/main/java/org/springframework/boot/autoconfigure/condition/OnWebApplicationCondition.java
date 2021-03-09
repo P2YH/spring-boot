@@ -86,11 +86,15 @@ class OnWebApplicationCondition extends FilteringSpringBootCondition {
 
 	@Override
 	public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		// 配置类是否标注有@ConditionalOnWebApplication注解
 		boolean required = metadata.isAnnotated(ConditionalOnWebApplication.class.getName());
+		// 调用isWebApplication方法返回匹配结果
 		ConditionOutcome outcome = isWebApplication(context, metadata, required);
+		// 若有标注@ConditionalOnWebApplication但不符合条件，则返回不匹配
 		if (required && !outcome.isMatch()) {
 			return ConditionOutcome.noMatch(outcome.getConditionMessage());
 		}
+		// 若没有标注@ConditionalOnWebApplication但符合条件，则返回不匹配
 		if (!required && outcome.isMatch()) {
 			return ConditionOutcome.noMatch(outcome.getConditionMessage());
 		}
@@ -99,6 +103,7 @@ class OnWebApplicationCondition extends FilteringSpringBootCondition {
 
 	private ConditionOutcome isWebApplication(ConditionContext context, AnnotatedTypeMetadata metadata,
 			boolean required) {
+		// 调用deduceType方法判断是哪种类型，其中有SERVLET，REACTIVE和ANY类型，其中ANY表示了SERVLET或REACTIVE类型
 		switch (deduceType(metadata)) {
 		case SERVLET:
 			return isServletWebApplication(context);
@@ -126,6 +131,7 @@ class OnWebApplicationCondition extends FilteringSpringBootCondition {
 
 	private ConditionOutcome isServletWebApplication(ConditionContext context) {
 		ConditionMessage.Builder message = ConditionMessage.forCondition("");
+		// 若classpath中不存在org.springframework.web.context.support.GenericWebApplicationContext.class，则返回不匹配
 		if (!ClassNameFilter.isPresent(SERVLET_WEB_APPLICATION_CLASS, context.getClassLoader())) {
 			return ConditionOutcome.noMatch(message.didNotFind("servlet web application classes").atAll());
 		}

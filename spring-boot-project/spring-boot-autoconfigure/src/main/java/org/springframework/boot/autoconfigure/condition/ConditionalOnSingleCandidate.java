@@ -26,6 +26,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.Conditional;
 
 /**
+ * 当指定的bean在BeanFactory只有一个或者虽然有多个但是指定为首选的bean
  * {@link Conditional} that only matches when a bean of the specified class is already
  * contained in the {@link BeanFactory} and a single candidate can be determined.
  * <p>
