@@ -25,6 +25,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Conditional;
 
 /**
+ * 类路径存在指定的资源
  * {@link Conditional} that only matches when the specified resources are on the
  * classpath.
  *
